@@ -37,7 +37,7 @@ board_disp:
 	call print_str
 	
 	; take input of position
-	call input_char
+	call input_position
 	mov bl,al
 	call new_line
 	call new_line
@@ -58,6 +58,7 @@ mov ah,4ch
 int 21h
 main endp
 
+
 ; prints the whole board of the game
 print_board proc
 	push cx
@@ -68,6 +69,7 @@ row:call print_line
 	pop cx
 	ret
 print_board endp
+
 
 ; prints each row of the board
 print_line proc
@@ -100,6 +102,7 @@ print_line proc
 	call new_line
 	ret
 print_line endp
+
 
 ; changes current player i.e current symbol
 change_symbol proc
@@ -137,12 +140,14 @@ new_line proc
 	ret
 new_line endp
 
+
 ; prints any character in dl
 print_char proc
 	mov ah,02
 	int 21h
 	ret
 print_char endp
+
 
 ; prints string with offset in dx
 print_str proc
@@ -151,8 +156,9 @@ print_str proc
 	ret
 print_str endp
 
+
 ; takes character input for position
-input_char proc
+input_position proc
 	push si
 	jmp input_start
 input_err:
@@ -176,6 +182,6 @@ input_start:
 	jge input_err
 	pop si
 	ret
-input_char endp
+input_position endp
 end main
 	
