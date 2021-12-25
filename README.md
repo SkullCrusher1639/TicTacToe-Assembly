@@ -1,4 +1,4 @@
-# TIcTacToe-Assembly
+# TicTacToe-Assembly
 A simple TicTacToe game written in Assembly Language.
 ## Requirements
 You will need the 8086 Emulator and DosBox application to run this program
