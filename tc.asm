@@ -16,6 +16,7 @@
 	current_symbol db "X"
 	str_turn2 db " Turn",10,13,"$"
 	str_place db "Enter number to select position: $"
+	str_err db 10,13,"Invalid Input",10,13,"$"
 	turn_count db 0	  
 .code 
 main proc
@@ -36,10 +37,6 @@ board_disp:
 	call print_str
 	
 	; take input of position
-	mov dx, offset str_place
-	call print_str
-	
-	
 	call input_char
 	mov bl,al
 	call new_line
@@ -122,7 +119,6 @@ set_symbol proc
 	push si
 	mov bh,0
 	mov si, offset board
-	sub bx,49
 	add si,bx
 	mov bl,current_symbol
 	mov [si],bl
@@ -155,10 +151,30 @@ print_str proc
 	ret
 print_str endp
 
-; takes character input
+; takes character input for position
 input_char proc
+	push si
+	jmp input_start
+input_err:
+	mov dx, offset str_err
+	mov ah,09
+	int 21h
+input_start:
+	mov dx, offset str_place
+	call print_str
 	mov ah,01
 	int 21h
+	sub al,48
+	cmp al,9
+	ja input_err
+	dec al
+	lea si, board
+	mov ah,0
+	add si,ax
+	mov ah,[si]
+	cmp ah,'O'
+	jge input_err
+	pop si
 	ret
 input_char endp
 end main
