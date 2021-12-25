@@ -7,7 +7,7 @@
 			 "456",
 		     "789",
 	
-	str_welcome db "Welcome to TicTacToe in Assembly",10,13,
+	str_welcome db "Welcome to TicTacToe written in Assembly",10,13,
 					"The game is played with 2 players",10,13,
 					"1st player has symbol X and 2nd player has symbol O",10,13,
 					"Let's Start",10,13,10,13,"$"
