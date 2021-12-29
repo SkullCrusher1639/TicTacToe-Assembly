@@ -7,6 +7,7 @@ You will need the MASM 8086 Emulator and DosBox application to run this program
 ## Assembling
 After you have successfully installed and set up the above software follow the steps below
 <ul>
+  <li>Download the .asm file above</li>
   <li>Open DosBox application</li>
   <li>Run this command  "mount c: &lt;path&gt;" where path is the folder of MASM 8086 Emulator</li>
   <li>Change directory to C: by command "c:"</li>
