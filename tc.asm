@@ -195,6 +195,8 @@ input_position endp
 check_winner proc
 	call row_winner
 	call column_winner
+	call lr_diagonal_winner
+	call rl_diagonal_winner
 	ret
 check_winner endp
 
@@ -236,7 +238,7 @@ exit:
 row_winner endp
 
 
-; check the winner if there are 3 same symbol in a row 
+; check the winner if there are 3 same symbol in a column 
 column_winner proc
 	push bx
 	push cx
@@ -275,6 +277,61 @@ exit:
 	pop bx
 	ret
 column_winner endp
+
+
+; check the winner if there are 3 same symbol in the left to right diagonal 
+lr_diagonal_winner proc
+	push cx
+	push di
+	push ax
+	mov cx,0
+	; check all the rows for same current symbol
+	mov di, offset board
+	mov al, current_symbol
+col_checks:
+		mov cx,3
+		single_col_check:
+			cmp [di],al
+			jne exit
+			add di,4
+			dec cx
+			jnz single_col_check
+set_winner:
+	mov won,1
+exit:
+	pop ax
+	pop di 
+	pop cx
+	ret
+lr_diagonal_winner endp
+
+
+; check the winner if there are 3 same symbol in the right to left diagonal 
+rl_diagonal_winner proc
+	push cx
+	push di
+	push ax
+	mov cx,0
+	; check all the rows for same current symbol
+	mov di, offset board
+	add di,2
+	mov al, current_symbol
+col_checks:
+		mov cx,3
+		single_col_check:
+			cmp [di],al
+			jne exit
+			add di,2
+			dec cx
+			jnz single_col_check
+set_winner:
+	mov won,1
+exit:
+	pop ax
+	pop di 
+	pop cx
+	ret
+rl_diagonal_winner endp
 
 
 ; display the winner(if won)
