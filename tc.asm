@@ -17,7 +17,9 @@
 	str_turn2 db " Turn",10,13,"$"
 	str_place db "Enter number to select position: $"
 	str_err db 10,13,"Invalid Input",10,13,"$"
-	turn_count db 0	  
+	str_win1 db "Player $"
+	str_win2 db " has won the game. Congratulation!!$"
+	won db 0	  
 .code 
 main proc
 	mov ax,@data
@@ -45,6 +47,11 @@ board_disp:
 	
 	; print board with symbols
 	call print_board
+	
+	; check the winner and display it(if won)
+	call check_winner
+	call display_winner
+	
 	call change_symbol
 	; loop until board is filled i,e 9 times
 	loop board_disp
@@ -183,5 +190,31 @@ input_start:
 	pop si
 	ret
 input_position endp
+
+
+; check the winner 
+check_winner proc
+	ret
+check_winner endp
+
+
+; display the winner(if won)
+display_winner proc
+	cmp won,1
+	jne exit
+	mov ah,9
+	mov dx, offset str_win1
+	int 21h
+	mov dl, current_symbol
+	mov ah,02
+	int 21h
+	mov dx,offset str_win2
+	mov ah,09
+	int 21h
+	mov ah,4ch
+	int 21h 
+exit:
+	ret
+display_winner endp
 end main
 	
