@@ -191,11 +191,49 @@ input_start:
 	ret
 input_position endp
 
-
-; check the winner 
+; check winner of the game
 check_winner proc
+	call row_winner
 	ret
 check_winner endp
+
+
+; check the winner if there are 3 same symbol in a row 
+row_winner proc
+	push bx
+	push cx
+	push di
+	push ax
+	mov cx,0
+	; check all the rows for same current symbol
+	mov di, offset board
+;	dec di
+	mov al, current_symbol
+	mov bh,3
+row_checks:
+		add di,cx
+		mov cx,3
+		single_row_check:
+			cmp [di],al
+			jne exit_single_row
+			inc di
+			dec cx
+			jnz single_row_check
+			jmp set_winner
+exit_single_row:
+	dec bh
+	jnz row_checks
+	jmp exit
+set_winner:
+	mov won,1
+	jmp exit
+exit:
+	pop ax
+	pop di 
+	pop cx
+	pop bx
+	ret
+row_winner endp
 
 
 ; display the winner(if won)
